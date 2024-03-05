@@ -578,6 +578,17 @@ socks = ["PySocks (>=1.5.6,!=1.5.7)"]
 use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
+name = "simple-term-menu"
+version = "1.6.4"
+description = "A Python package which creates simple interactive menus on the command line."
+optional = false
+python-versions = "~=3.5"
+files = [
+    {file = "simple-term-menu-1.6.4.tar.gz", hash = "sha256:be9c5dbd8df12a404b14cd8e95d6fc02d58c60e2555f65ddde41777c487fb3b9"},
+    {file = "simple_term_menu-1.6.4-py3-none-any.whl", hash = "sha256:5edc5e239060a780d089b6a079f113aeda6dbf91740327c2c70c541ea3a04b8d"},
+]
+
+[[package]]
 name = "typing-extensions"
 version = "4.10.0"
 description = "Backported and Experimental Type Hints for Python 3.8+"
@@ -608,4 +619,4 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "c312bdb654db165bd64d8010c6a7ddd6f74ff2200d7a7ad41c703067c18fabe3"
+content-hash = "98c6c628a287f85911eb9c882c662856d84c5887300d0742036c0a6d9a687938"

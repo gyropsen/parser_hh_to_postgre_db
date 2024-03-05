@@ -1,5 +1,3 @@
-from contextlib import contextmanager
-
 from src.utils import get_connection
 
 
@@ -74,8 +72,9 @@ class DBManager:
         """
         result = self.execute_query(
             """
-            SELECT *
+            SELECT v.name, v.area, v.salary_from, v.salary_to, v.url, employers.name
             FROM vacancies AS v
+            INNER JOIN employers ON v.employer=employers.id
             WHERE (v.salary_from + v.salary_to) / 2 > (SELECT AVG(v.salary_from + v.salary_to) / 2
                                                        FROM vacancies AS v)
             """
@@ -90,16 +89,10 @@ class DBManager:
         """
         result = self.execute_query(
             f"""
-            SELECT *
-            FROM vacancies
-            WHERE vacancies.name LIKE ('%{keyword}%')
+            SELECT v.name, v.area, v.salary_from, v.salary_to, v.url, employers.name
+            FROM vacancies AS v
+            INNER JOIN employers ON v.employer=employers.id
+            WHERE v.name LIKE ('%{keyword}%')
             """
         )
         return result
-
-
-@contextmanager
-def create_dbmanager(db_name):
-    dbmanager = DBManager(db_name)
-    yield dbmanager
-    dbmanager.conn.close()
