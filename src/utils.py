@@ -4,13 +4,17 @@ from src.classes.hh_parser import HHParser
 from src.config import config
 
 
+def get_connection(db_name="postgres") -> psycopg2:
+    return psycopg2.connect(dbname=db_name, **config())
+
+
 def create_database(db_name: str) -> None:
     """
     Создание базы данных
     :param db_name: название базы данных
     :return: None
     """
-    conn = psycopg2.connect(dbname="postgres", **config())
+    conn = get_connection()
     conn.autocommit = True
     cur = conn.cursor()
 
@@ -28,15 +32,15 @@ def create_tables(db_name: str) -> None:
     :param db_name: название базы данных
     :return: None
     """
-    conn = psycopg2.connect(dbname=db_name, **config())
+    conn = get_connection(db_name)
     with conn:
         with conn.cursor() as cur:
             cur.execute(
                 """
                 CREATE TABLE employers
                 (
-                    id int PRIMARY KEY, 
-                    name varchar(255) UNIQUE NOT NULL 
+                    id int PRIMARY KEY,
+                    name varchar(255) UNIQUE NOT NULL
                 )
                 """
             )
@@ -68,22 +72,22 @@ def insert_data_into_tables(db_name: str) -> None:
     hh = HHParser()
     employers = hh.get_employers()
     vacancies = hh.filter_vacancies()
-    conn = psycopg2.connect(dbname=db_name, **config())
+    conn = get_connection(db_name)
     with conn:
         with conn.cursor() as cur:
             for employer in employers:
                 cur.execute(
                     """
-                            INSERT INTO employers VALUES (%s, %s)
-                            ON CONFLICT (id) DO NOTHING;
+                        INSERT INTO employers VALUES (%s, %s)
+                        ON CONFLICT (id) DO NOTHING;
                     """,
                     (employer["id"], employer["name"]),
                 )
             for vacancy in vacancies:
                 cur.execute(
                     """
-                            INSERT INTO vacancies VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-                            ON CONFLICT (id) DO NOTHING;
+                        INSERT INTO vacancies VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                        ON CONFLICT (id) DO NOTHING;
                     """,
                     (
                         vacancy["id"],
@@ -96,3 +100,4 @@ def insert_data_into_tables(db_name: str) -> None:
                         vacancy["employer"],
                     ),
                 )
+    conn.close()
