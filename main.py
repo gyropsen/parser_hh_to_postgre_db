@@ -1,5 +1,3 @@
-import time
-
 import psycopg2
 from simple_term_menu import TerminalMenu
 
