@@ -1,3 +1,5 @@
+import time
+
 import psycopg2
 from simple_term_menu import TerminalMenu
 
@@ -45,10 +47,17 @@ def main() -> None:
         cycle_cursor=True,
         clear_screen=True,
     )
-
-    dbname = input("Введите название базы данных: ").strip().lower()
+    while True:
+        dbname = input("Введите название базы данных: ").strip().lower()
+        if dbname.isalpha():
+            break
+        else:
+            print("Некорректное название базы данных. "
+                  "Введите другое название. Название "
+                  "должно быть только из латинских букв")
 
     while not main_menu_exit:
+        print("hi")
         main_sel = main_menu.show()
 
         if main_sel == 0:
