@@ -57,7 +57,6 @@ def main() -> None:
                   "должно быть только из латинских букв")
 
     while not main_menu_exit:
-        print("hi")
         main_sel = main_menu.show()
 
         if main_sel == 0:
