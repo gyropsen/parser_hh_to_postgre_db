@@ -45,8 +45,14 @@ def main() -> None:
         cycle_cursor=True,
         clear_screen=True,
     )
-
-    dbname = input("Введите название базы данных: ").strip().lower()
+    while True:
+        dbname = input("Введите название базы данных: ").strip().lower()
+        if dbname.isalpha():
+            break
+        else:
+            print("Некорректное название базы данных. "
+                  "Введите другое название. Название "
+                  "должно быть только из латинских букв")
 
     while not main_menu_exit:
         main_sel = main_menu.show()
