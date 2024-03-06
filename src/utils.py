@@ -101,3 +101,26 @@ def insert_data_into_tables(db_name: str) -> None:
                     ),
                 )
     conn.close()
+
+
+def delete_database(db_name: str) -> None:
+    """
+    Удаление базы данных
+    :param db_name: название базы данных
+    :return: None
+    """
+    conn = get_connection()
+    conn.autocommit = True
+    cur = conn.cursor()
+
+    try:
+        cur.execute(
+            f"SELECT pg_terminate_backend(pg_stat_activity.pid) "
+            f"FROM pg_stat_activity "
+            f"WHERE pg_stat_activity.datname = '{db_name}' "
+            f"AND pid <> pg_backend_pid();"
+        )
+        cur.execute(f"DROP DATABASE IF EXISTS {db_name};")
+    finally:
+        cur.close()
+        conn.close()

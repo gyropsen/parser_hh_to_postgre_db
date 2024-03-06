@@ -1,10 +1,14 @@
 import psycopg2
 from simple_term_menu import TerminalMenu
+
 from src.classes.db_manager import DBManager
-from src.utils import insert_data_into_tables, create_tables, create_database
+from src.utils import create_database, create_tables, insert_data_into_tables
 
 
-def main():
+def main() -> None:
+    """
+    Основная функция
+    """
     main_menu_title = "  Главное меню.\n Нажмите Q или Esc, чтобы выйти. \n"
     main_menu_items = ["Получить вакансии из базы данных", "Записать в базу данных вакансии", "Выход"]
     main_menu_cursor = "> "
@@ -23,12 +27,14 @@ def main():
     )
 
     database_menu_title = "  Меню базы данных.\n  Нажмите Q или Esc, чтобы вернуться в главное меню. \n"
-    database_menu_items = ["Получить список всех компаний и количество вакансий у каждой компании",
-                           "Получить список всех вакансий с указанием названия компании",
-                           "Получить среднюю зарплату по вакансиям",
-                           "Получить список всех вакансий, у которых зарплата выше средней по всем вакансиям",
-                           "Получить список всех вакансий, в названии которых содержатся переданные в метод слова",
-                           "Вернуться в главное меню"]
+    database_menu_items = [
+        "Получить список всех компаний и количество вакансий у каждой компании",
+        "Получить список всех вакансий с указанием названия компании",
+        "Получить среднюю зарплату по вакансиям",
+        "Получить список всех вакансий, у которых зарплата выше средней по всем вакансиям",
+        "Получить список всех вакансий, в названии которых содержатся переданные в метод слова",
+        "Вернуться в главное меню",
+    ]
     database_menu_back = False
     database_menu = TerminalMenu(
         database_menu_items,
@@ -43,7 +49,6 @@ def main():
     dbname = input("Введите название базы данных: ").strip().lower()
 
     while not main_menu_exit:
-
         main_sel = main_menu.show()
 
         if main_sel == 0:
@@ -64,11 +69,13 @@ def main():
 
                         vacancies = dbm.get_all_vacancies()
                         for vacancy in vacancies:
-                            print(f"\nКомпания {vacancy[0]}\n"
-                                  f"Вакансия {vacancy[1]}\n"
-                                  f"Зарплата от {vacancy[2]}\n"
-                                  f"Зарплата до {vacancy[3]}\n"
-                                  f"Ссылка {vacancy[4]}\n")
+                            print(
+                                f"\nКомпания {vacancy[0]}\n"
+                                f"Вакансия {vacancy[1]}\n"
+                                f"Зарплата от {vacancy[2]}\n"
+                                f"Зарплата до {vacancy[3]}\n"
+                                f"Ссылка {vacancy[4]}\n"
+                            )
                         input("Введите что-нибудь, чтобы вернуться в меню базы данных")
 
                     elif db_sel == 2:
@@ -79,32 +86,36 @@ def main():
                         input("Введите что-нибудь, чтобы вернуться в меню базы данных")
 
                     elif db_sel == 3:
-                        print("Получение списка всех вакансий, "
-                              "у которых зарплата выше средней по всем вакансиям")
+                        print("Получение списка всех вакансий, " "у которых зарплата выше средней по всем вакансиям")
 
                         vacancies = dbm.get_vacancies_with_higher_salary()
                         for vacancy in vacancies:
-                            print(f"\nВакансия: {vacancy[0]}\n"
-                                  f"Город: {vacancy[1]}\n"
-                                  f"Зарплата от: {vacancy[2]}\n"
-                                  f"Зарплата до: {vacancy[3]}\n"
-                                  f"Ссылка: {vacancy[4]}\n"
-                                  f"Компания: {vacancy[5]}\n")
+                            print(
+                                f"\nВакансия: {vacancy[0]}\n"
+                                f"Город: {vacancy[1]}\n"
+                                f"Зарплата от: {vacancy[2]}\n"
+                                f"Зарплата до: {vacancy[3]}\n"
+                                f"Ссылка: {vacancy[4]}\n"
+                                f"Компания: {vacancy[5]}\n"
+                            )
                         input("Введите что-нибудь, чтобы вернуться в меню базы данных")
 
                     elif db_sel == 4:
-                        print("Получение списка всех вакансий, "
-                              "в названии которых содержатся переданные в метод слова")
+                        print(
+                            "Получение списка всех вакансий, " "в названии которых содержатся переданные в метод слова"
+                        )
 
                         keyword = input("Введите ключевое слово: ")
                         vacancies = dbm.get_vacancies_with_keyword(keyword.strip())
                         for vacancy in vacancies:
-                            print(f"\nВакансия: {vacancy[0]}\n"
-                                  f"Город: {vacancy[1]}\n"
-                                  f"Зарплата от: {vacancy[2]}\n"
-                                  f"Зарплата до: {vacancy[3]}\n"
-                                  f"Ссылка: {vacancy[4]}\n"
-                                  f"Компания: {vacancy[5]}\n")
+                            print(
+                                f"\nВакансия: {vacancy[0]}\n"
+                                f"Город: {vacancy[1]}\n"
+                                f"Зарплата от: {vacancy[2]}\n"
+                                f"Зарплата до: {vacancy[3]}\n"
+                                f"Ссылка: {vacancy[4]}\n"
+                                f"Компания: {vacancy[5]}\n"
+                            )
                         input("Введите что-нибудь, чтобы вернуться в меню базы данных")
 
                     elif db_sel == 5 or db_sel is None:
@@ -130,5 +141,5 @@ def main():
             print("Quit Selected")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
