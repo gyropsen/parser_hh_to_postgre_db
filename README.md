@@ -7,6 +7,17 @@
 и перейти в пункт "Modify Run Configuration...". Нажать на "Modify Options" и установить галочку на 
 "Emulate terminal in out console"
 
+В файл database.ini небходимо вместо 'Enter your ...' ввести свои значения.
+Чаще всего значения будут такие:
+```
+
+user=postgres
+password='Enter your password'
+host=localhost
+port=5432
+
+```
+
 ### Имеет следующие возможности:
 - Поиск вакансий у топ-10 работодатей в России
 - Сохранение в базу данных PostgreSQL
